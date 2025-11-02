@@ -4,4 +4,5 @@ export interface ToggleProps {
   label?: string;
   description?: string;
   disabled?: boolean;
+  className?: string;
 }

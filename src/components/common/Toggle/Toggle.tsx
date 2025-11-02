@@ -7,12 +7,13 @@ const Toggle = ({
   label,
   description,
   disabled,
+  className = "",
 }: ToggleProps) => {
   return (
-    <div className="flex items-center justify-between">
+    <div className={cn("flex items-center justify-between", className)}>
       <div className="flex-1">
         {label && (
-          <label className="text-sm font-medium text-gray-900 cursor-pointer">
+          <label className="text-sm font-medium text-foreground cursor-pointer">
             {label}
           </label>
         )}
@@ -27,8 +28,8 @@ const Toggle = ({
         disabled={disabled}
         onClick={() => onChange(!checked)}
         className={cn(
-          "relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2",
-          checked ? "bg-primary-600" : "bg-gray-200",
+          "relative inline-flex h-6 w-11 shrink-0 cursor-pointer ring-0 focus:ring-0 focus:outline-0 outline-0 rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-primary-500 focus:ring-offset-2",
+          checked ? "bg-primary" : "bg-neutral-400 ",
           disabled && "opacity-50 cursor-not-allowed"
         )}
       >

@@ -8,8 +8,7 @@ import Button from "../../components/common/Button";
 import Input from "../../components/common/Input";
 import Tabs from "../../components/common/Tabs";
 import Toggle from "../../components/common/Toggle";
-import { usePreferencesStore } from "../../store/usePreferencesStore";
-
+import { useAuthStore } from "../../store/useAuthStore";
 // Profile form schema
 const profileSchema = z.object({
   fullName: z.string().min(2, "Name must be at least 2 characters"),
@@ -35,21 +34,14 @@ const passwordSchema = z
 type PasswordFormData = z.infer<typeof passwordSchema>;
 
 const Settings = () => {
+  const { user } = useAuthStore();
   const [activeTab, setActiveTab] = useState("profile");
-  const [isSaving, setIsSaving] = useState(false);
-
-  // Use Zustand store for preferences
-  const { notifications, appearance, updateNotifications, updateAppearance } =
-    usePreferencesStore();
-
   // Profile form
   const profileForm = useForm<ProfileFormData>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
-      fullName: "John Doe",
-      email: "john@example.com",
-      company: "Acme Inc",
-      bio: "Software developer passionate about building great products.",
+      fullName: user?.user.name || "",
+      email: user?.user.email || "",
     },
   });
 
@@ -64,29 +56,11 @@ const Settings = () => {
     { id: "security", label: "Security", icon: <Shield size={18} /> },
     { id: "appearance", label: "Appearance", icon: <Palette size={18} /> },
   ];
-
-  const handleProfileSubmit = async (data: ProfileFormData) => {
-    setIsSaving(true);
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    console.log("Profile data:", data);
-    setIsSaving(false);
-  };
-
-  const handlePasswordSubmit = async (data: PasswordFormData) => {
-    setIsSaving(true);
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    console.log("Password data:", data);
-    passwordForm.reset();
-    setIsSaving(false);
-  };
-
   return (
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Settings</h1>
+        <h1 className="text-2xl font-bold text-foreground">Settings</h1>
         <p className="text-gray-600 mt-1">
           Manage your application settings and preferences.
         </p>
@@ -99,20 +73,20 @@ const Settings = () => {
         </div>
 
         <div className="p-6">
-          {/* Profile Tab */}
+          {/* Profile */}
           {activeTab === "profile" && (
             <form
-              onSubmit={profileForm.handleSubmit(handleProfileSubmit)}
+              onSubmit={profileForm.handleSubmit(() => {})}
               className="space-y-6"
             >
               <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                <h3 className="text-lg font-semibold text-foreground mb-4">
                   Profile Information
                 </h3>
                 <div className="space-y-4">
                   <div className="flex items-center gap-4">
                     <img
-                      src="https://i.pravatar.cc/150?img=3"
+                      src={user?.user.avatar}
                       alt="Profile"
                       className="w-20 h-20 rounded-full"
                     />
@@ -126,6 +100,7 @@ const Settings = () => {
                     {...profileForm.register("fullName")}
                     error={profileForm.formState.errors.fullName?.message}
                     fullWidth
+                    className="border border-primary/50 focus:border-primary focus:ring-0 focus:outline-0 focus:ring-offset-0"
                   />
 
                   <Input
@@ -134,31 +109,8 @@ const Settings = () => {
                     {...profileForm.register("email")}
                     error={profileForm.formState.errors.email?.message}
                     fullWidth
+                    className="border border-primary/50 focus:border-primary focus:ring-0 focus:outline-0 focus:ring-offset-0"
                   />
-
-                  <Input
-                    label="Company"
-                    {...profileForm.register("company")}
-                    error={profileForm.formState.errors.company?.message}
-                    fullWidth
-                  />
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                      Bio
-                    </label>
-                    <textarea
-                      {...profileForm.register("bio")}
-                      rows={4}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                      placeholder="Tell us about yourself..."
-                    />
-                    {profileForm.formState.errors.bio && (
-                      <p className="text-sm text-red-600 mt-1">
-                        {profileForm.formState.errors.bio.message}
-                      </p>
-                    )}
-                  </div>
                 </div>
               </div>
 
@@ -166,7 +118,7 @@ const Settings = () => {
                 <Button
                   type="submit"
                   leftIcon={<Save size={18} />}
-                  isLoading={isSaving}
+                  isLoading={false}
                 >
                   Save Changes
                 </Button>
@@ -174,41 +126,41 @@ const Settings = () => {
             </form>
           )}
 
-          {/* Notifications Tab */}
+          {/* Notifications*/}
           {activeTab === "notifications" && (
             <div className="space-y-6">
               <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                <h3 className="text-lg font-semibold text-foreground mb-4">
                   Notification Preferences
                 </h3>
                 <div className="space-y-4">
                   <Toggle
-                    checked={notifications.email}
-                    onChange={(value) => updateNotifications({ email: value })}
+                    checked={false}
+                    onChange={() => {}}
                     label="Email Notifications"
                     description="Receive notifications via email"
+                    className="p-2 border border-primary/50"
                   />
                   <Toggle
-                    checked={notifications.push}
-                    onChange={(value) => updateNotifications({ push: value })}
+                    checked={false}
+                    onChange={() => {}}
                     label="Push Notifications"
                     description="Receive push notifications in your browser"
+                    className="p-2 border border-primary/50"
                   />
                   <Toggle
-                    checked={notifications.weeklyDigest}
-                    onChange={(value) =>
-                      updateNotifications({ weeklyDigest: value })
-                    }
+                    checked={false}
+                    onChange={() => {}}
                     label="Weekly Digest"
                     description="Get a weekly summary of your activity"
+                    className="p-2 border border-primary/50"
                   />
                   <Toggle
-                    checked={notifications.marketing}
-                    onChange={(value) =>
-                      updateNotifications({ marketing: value })
-                    }
+                    checked={false}
+                    onChange={() => {}}
                     label="Marketing Emails"
                     description="Receive emails about new features and updates"
+                    className="p-2 border border-primary/50"
                   />
                 </div>
               </div>
@@ -219,14 +171,14 @@ const Settings = () => {
             </div>
           )}
 
-          {/* Security Tab */}
+          {/* Security */}
           {activeTab === "security" && (
             <form
-              onSubmit={passwordForm.handleSubmit(handlePasswordSubmit)}
+              onSubmit={passwordForm.handleSubmit(() => {})}
               className="space-y-6"
             >
               <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                <h3 className="text-lg font-semibold text-foreground mb-4">
                   Change Password
                 </h3>
                 <div className="space-y-4">
@@ -238,6 +190,7 @@ const Settings = () => {
                       passwordForm.formState.errors.currentPassword?.message
                     }
                     fullWidth
+                    className="border border-primary/50 focus:border-primary focus:ring-0 focus:outline-0 focus:ring-offset-0"
                   />
 
                   <Input
@@ -247,6 +200,7 @@ const Settings = () => {
                     error={passwordForm.formState.errors.newPassword?.message}
                     helperText="Must be at least 8 characters"
                     fullWidth
+                    className="border border-primary/50 focus:border-primary focus:ring-0 focus:outline-0 focus:ring-offset-0"
                   />
 
                   <Input
@@ -257,26 +211,27 @@ const Settings = () => {
                       passwordForm.formState.errors.confirmPassword?.message
                     }
                     fullWidth
+                    className="border border-primary/50 focus:border-primary focus:ring-0 focus:outline-0 focus:ring-offset-0"
                   />
                 </div>
               </div>
 
               <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                <h3 className="text-lg font-semibold text-foreground mb-4">
                   Two-Factor Authentication
                 </h3>
                 <div className="flex items-start justify-between p-4 bg-gray-50 rounded-lg">
                   <div>
-                    <p className="text-sm font-medium text-gray-900">
+                    <p className="text-sm font-medium text-foreground">
                       Enable 2FA
                     </p>
-                    <p className="text-sm text-gray-500 mt-1">
+                    <p className="text-sm text-muted-foreground mt-1">
                       Add an extra layer of security to your account
                     </p>
                   </div>
-                  <Button variant="outline" size="sm">
+                  <div className="text-primary cursor-pointer border border-primary/50 p-2 rounded-lg">
                     Setup
-                  </Button>
+                  </div>
                 </div>
               </div>
 
@@ -284,7 +239,8 @@ const Settings = () => {
                 <Button
                   type="submit"
                   leftIcon={<Save size={18} />}
-                  isLoading={isSaving}
+                  isLoading={false}
+                  variant="primary"
                 >
                   Update Password
                 </Button>
@@ -292,25 +248,23 @@ const Settings = () => {
             </form>
           )}
 
-          {/* Appearance Tab */}
+          {/* Appearance */}
           {activeTab === "appearance" && (
             <div className="space-y-6">
               <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                <h3 className="text-lg font-semibold text-foreground mb-4">
                   Display Settings
                 </h3>
                 <div className="space-y-4">
                   <Toggle
-                    checked={appearance.darkMode}
-                    onChange={(value) => updateAppearance({ darkMode: value })}
+                    checked={false}
+                    onChange={() => {}}
                     label="Dark Mode"
                     description="Enable dark theme across the application"
                   />
                   <Toggle
-                    checked={appearance.compactMode}
-                    onChange={(value) =>
-                      updateAppearance({ compactMode: value })
-                    }
+                    checked={false}
+                    onChange={() => {}}
                     label="Compact Mode"
                     description="Reduce spacing for a more compact layout"
                   />
@@ -318,20 +272,18 @@ const Settings = () => {
               </div>
 
               <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                <h3 className="text-lg font-semibold text-foreground mb-4">
                   Language & Region
                 </h3>
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    <label className="block text-sm font-medium text-foreground mb-1.5">
                       Language
                     </label>
                     <select
-                      value={appearance.language}
-                      onChange={(e) =>
-                        updateAppearance({ language: e.target.value })
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                      value={"en-US"}
+                      onChange={() => {}}
+                      className="w-full px-3 py-2 border border-primary/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
                     >
                       <option value="en-US">English (US)</option>
                       <option value="es">Spanish</option>
@@ -341,15 +293,13 @@ const Settings = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    <label className="block text-sm font-medium text-foreground mb-1.5">
                       Timezone
                     </label>
                     <select
-                      value={appearance.timezone}
-                      onChange={(e) =>
-                        updateAppearance({ timezone: e.target.value })
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                      value={"UTC-8"}
+                      onChange={() => {}}
+                      className="w-full px-3 py-2 border border-primary/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
                     >
                       <option value="UTC-8">UTC-8 (Pacific Time)</option>
                       <option value="UTC-5">UTC-5 (Eastern Time)</option>
@@ -360,7 +310,7 @@ const Settings = () => {
                 </div>
               </div>
 
-              <div className="flex justify-end pt-4 border-t border-gray-200">
+              <div className="flex justify-end pt-4 border-t border-primary/50">
                 <Button leftIcon={<Save size={18} />}>Save Preferences</Button>
               </div>
             </div>
