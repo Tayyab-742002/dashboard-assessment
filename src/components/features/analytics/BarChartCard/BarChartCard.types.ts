@@ -8,4 +8,5 @@ export interface BarChartCardProps {
   title: string;
   subtitle?: string;
   data: BarChartData[];
+  className?: string;
 }

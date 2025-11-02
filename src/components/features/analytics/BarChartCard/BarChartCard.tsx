@@ -11,9 +11,14 @@ import {
 import Card from "../../../common/Card";
 import type { BarChartCardProps } from "./BarChartCard.types";
 
-const BarChartCard = ({ title, subtitle, data }: BarChartCardProps) => {
+const BarChartCard = ({
+  title,
+  subtitle,
+  data,
+  className = "",
+}: BarChartCardProps) => {
   return (
-    <Card>
+    <Card className={className}>
       <Card.Header title={title} subtitle={subtitle} />
       <Card.Content>
         <ResponsiveContainer width="100%" height={300}>
@@ -36,13 +41,13 @@ const BarChartCard = ({ title, subtitle, data }: BarChartCardProps) => {
             <Legend wrapperStyle={{ paddingTop: "20px" }} iconType="circle" />
             <Bar
               dataKey="users"
-              fill="#0ea5e9"
+              fill="#125D98"
               radius={[8, 8, 0, 0]}
               name="Total Users"
             />
             <Bar
               dataKey="growth"
-              fill="#22c55e"
+              fill="#DA0037"
               radius={[8, 8, 0, 0]}
               name="Growth %"
             />

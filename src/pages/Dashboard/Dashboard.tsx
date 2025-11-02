@@ -7,29 +7,32 @@ import {
 
 import StatsCard from "../../components/features/dashboard/StatsCard";
 import RevenueChart from "../../components/features/dashboard/RevenueChart";
-import RecentActivity from "../../components/features/dashboard/RecentActivity";
+import RecentActivityComponent from "../../components/features/dashboard/RecentActivity";
 import { formatCurrency, formatNumber } from "../../utils/formatters";
 import { useFetch } from "../../hooks/useFetch";
 import { dashboardService } from "../../api/services/dashboard.service";
 import Spinner from "../../components/common/Spinner";
+import type {
+  ChartDataPoint,
+  DashboardStats,
+  RecentActivity,
+} from "../../types/dashboard.types";
 const Dashboard = () => {
   // fetching stats
-  const { data: stats, loading: statsLoading } = useFetch(
+  const { data: stats, loading: statsLoading } = useFetch<DashboardStats>(
     () => dashboardService.getStats(),
     []
   );
 
   // fetching recent activities
-  const { data: recentActivity, loading: recentActivityLoading } = useFetch(
-    () => dashboardService.getRecentActivity(),
-    []
-  );
+  const { data: recentActivity, loading: recentActivityLoading } = useFetch<
+    RecentActivity[]
+  >(() => dashboardService.getRecentActivity(), []);
 
   // fetching chart's data
-  const { data: chartData, loading: chartDataLoading } = useFetch(
-    () => dashboardService.getChartData(),
-    []
-  );
+  const { data: chartData, loading: chartDataLoading } = useFetch<
+    ChartDataPoint[]
+  >(() => dashboardService.getChartData(), []);
   if (statsLoading || recentActivityLoading || chartDataLoading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
@@ -55,7 +58,7 @@ const Dashboard = () => {
           change={12.5}
           icon={<DollarSign size={24} />}
           iconColor="text-white bg-green-500/80"
-          className="border border-green-500/80"
+          className="shadow-2xl"
         />
         <StatsCard
           title="Subscriptions"
@@ -63,7 +66,7 @@ const Dashboard = () => {
           change={8.2}
           icon={<UsersIcon size={24} />}
           iconColor="text-white bg-blue-500/80"
-          className="border border-blue-500/80"
+          className="shadow-2xl"
         />
         <StatsCard
           title="Sales"
@@ -71,7 +74,7 @@ const Dashboard = () => {
           change={-3.1}
           icon={<ShoppingCart size={24} />}
           iconColor="text-white bg-purple-500/80"
-          className="border border-purple-500/80"
+          className="shadow-2xl"
         />
         <StatsCard
           title="Active Users"
@@ -79,7 +82,8 @@ const Dashboard = () => {
           change={15.8}
           icon={<Activity size={24} />}
           iconColor="text-white bg-orange-500/80"
-          className="border border-orange-500/80"
+          className="shadow-2xl"
+          v
         />
       </div>
 
@@ -89,7 +93,7 @@ const Dashboard = () => {
           <RevenueChart data={chartData || []} />
         </div>
         <div className="lg:col-span-1 p-4 shadow-primary">
-          <RecentActivity activities={recentActivity || []} />
+          <RecentActivityComponent activities={recentActivity || []} />
         </div>
       </div>
     </div>

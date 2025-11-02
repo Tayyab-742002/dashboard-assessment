@@ -7,4 +7,5 @@ export interface MetricItem {
 export interface MetricsCardProps {
   title: string;
   metrics: MetricItem[];
+  className?: string;
 }

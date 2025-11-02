@@ -8,13 +8,14 @@ import BarChartCard from "../../components/features/analytics/BarChartCard";
 import MetricsCard from "../../components/features/analytics/MetricsCard";
 import { formatCurrency, formatNumber } from "../../utils/formatters";
 import type {
+  AnalyticsData,
   RevenueBreakdown,
   SalesByCategory,
   UserGrowth,
 } from "../../types/analytics.types";
 
 const Analytics = () => {
-  const { data: analyticsData, loading } = useFetch(
+  const { data: analyticsData, loading } = useFetch<AnalyticsData>(
     () => analyticsService.getAnalyticsData(),
     []
   );
@@ -43,10 +44,12 @@ const Analytics = () => {
     ) || 0;
 
   const avgGrowth =
-    analyticsData?.userGrowth.reduce(
-      (sum: number, item: UserGrowth) => sum + item.growth,
-      0
-    ) / (analyticsData?.userGrowth.length || 1) || 0;
+    analyticsData?.userGrowth && analyticsData.userGrowth.length > 0
+      ? analyticsData.userGrowth.reduce(
+          (sum: number, item: UserGrowth) => sum + item.growth,
+          0
+        ) / analyticsData.userGrowth.length
+      : 0;
 
   const revenueMetrics =
     analyticsData?.revenueBreakdown.map((item: RevenueBreakdown) => ({
@@ -72,48 +75,56 @@ const Analytics = () => {
           value={formatCurrency(totalSales)}
           change={15.3}
           icon={<ShoppingBag size={24} />}
-          iconColor="bg-blue-100 text-blue-600"
+          iconColor="bg-blue-500/80 text-blue-200"
+          className="shadow-2xl"
         />
         <StatsCard
           title="Total Users"
           value={formatNumber(totalUsers)}
           change={24.5}
           icon={<Users size={24} />}
-          iconColor="bg-green-100 text-green-600"
+          iconColor="bg-green-500/80 text-green-700"
+          className="shadow-2xl"
         />
         <StatsCard
           title="Total Revenue"
           value={formatCurrency(totalRevenue)}
           change={18.7}
           icon={<DollarSign size={24} />}
-          iconColor="bg-purple-100 text-purple-600"
+          iconColor="bg-purple-500/80 text-purple-200"
+          className="shadow-2xl"
         />
         <StatsCard
           title="Avg Growth"
           value={`${avgGrowth.toFixed(1)}%`}
           change={5.2}
           icon={<TrendingUp size={24} />}
-          iconColor="bg-orange-100 text-orange-600"
+          iconColor="bg-orange-500/80 text-orange-200"
+          className="shadow-2xl"
         />
       </div>
 
       {/* Charts Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <PieChartCard
-          title="Sales by Category"
-          subtitle="Distribution of sales across categories"
-          data={analyticsData?.salesByCategory || []}
-        />
+        <div className="shadow-primary">
+          <PieChartCard
+            title="Sales by Category"
+            subtitle="Distribution of sales across categories"
+            data={analyticsData?.salesByCategory || []}
+          />
+        </div>
 
-        <MetricsCard title="Revenue Sources" metrics={revenueMetrics} />
+        <div className="shadow-primary">
+          <MetricsCard title="Revenue Sources" metrics={revenueMetrics} />
+        </div>
       </div>
-
-      {/* Full Width Chart */}
-      <BarChartCard
-        title="User Growth"
-        subtitle="Monthly user acquisition and growth rate"
-        data={analyticsData?.userGrowth || []}
-      />
+      <div className="shadow-primary">
+        <BarChartCard
+          title="User Growth"
+          subtitle="Monthly user acquisition and growth rate"
+          data={analyticsData?.userGrowth || []}
+        />
+      </div>
     </div>
   );
 };

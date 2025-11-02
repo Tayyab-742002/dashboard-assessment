@@ -4,9 +4,9 @@ import type { PieChartCardProps } from "./PieChartCard.types";
 import { formatCurrency } from "../../../../utils/formatters";
 const COLORS = ["#0ea5e9", "#a855f7", "#22c55e", "#f59e0b", "#ef4444"];
 
-const PieChartCard = ({ title, subtitle, data }: PieChartCardProps) => {
+const PieChartCard = ({ title, subtitle, data, className=""}: PieChartCardProps) => {
   return (
-    <Card>
+    <Card className={className}>
       <Card.Header title={title} subtitle={subtitle} />
       <Card.Content>
         <div className="flex flex-col lg:flex-row gap-6">
@@ -52,13 +52,13 @@ const PieChartCard = ({ title, subtitle, data }: PieChartCardProps) => {
                     className="w-3 h-3 rounded-full"
                     style={{ backgroundColor: COLORS[index % COLORS.length] }}
                   />
-                  <span className="text-sm text-gray-700">{item.name}</span>
+                  <span className="text-sm text-muted-foreground">{item.name}</span>
                 </div>
                 <div className="text-right">
-                  <p className="text-sm font-semibold text-gray-900">
+                  <p className="text-sm font-semibold text-foreground">
                     {formatCurrency(item.value)}
                   </p>
-                  <p className="text-xs text-gray-500">{item.percentage}%</p>
+                  <p className="text-xs text-muted-foreground">{item.percentage}%</p>
                 </div>
               </div>
             ))}

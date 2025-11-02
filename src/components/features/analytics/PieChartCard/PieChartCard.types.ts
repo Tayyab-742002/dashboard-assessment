@@ -8,4 +8,5 @@ export interface PieChartCardProps {
   title: string;
   subtitle?: string;
   data: PieChartData[];
+  className?: string;
 }
