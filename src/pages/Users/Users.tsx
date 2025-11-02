@@ -6,7 +6,7 @@ import type { User } from "../../types/user.types";
 import Card from "../../components/common/Card";
 import Button from "../../components/common/Button";
 import Input from "../../components/common/Input";
-import Modal from "../../components/common/Modal/Modal";
+import Modal from "../../components/common/Modal";
 import Table from "../../components/common/Table";
 import Badge from "../../components/common/Badge";
 import UserForm from "../../components/features/users/UserForm/UserForm";

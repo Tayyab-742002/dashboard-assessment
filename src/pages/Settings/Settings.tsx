@@ -8,6 +8,7 @@ import Button from "../../components/common/Button";
 import Input from "../../components/common/Input";
 import Tabs from "../../components/common/Tabs";
 import Toggle from "../../components/common/Toggle";
+import { usePreferencesStore } from "../../store/usePreferencesStore";
 
 // Profile form schema
 const profileSchema = z.object({
@@ -37,15 +38,9 @@ const Settings = () => {
   const [activeTab, setActiveTab] = useState("profile");
   const [isSaving, setIsSaving] = useState(false);
 
-  // Notification settings
-  const [emailNotifications, setEmailNotifications] = useState(true);
-  const [pushNotifications, setPushNotifications] = useState(false);
-  const [weeklyDigest, setWeeklyDigest] = useState(true);
-  const [marketingEmails, setMarketingEmails] = useState(false);
-
-  // Appearance settings
-  const [darkMode, setDarkMode] = useState(false);
-  const [compactMode, setCompactMode] = useState(false);
+  // Use Zustand store for preferences
+  const { notifications, appearance, updateNotifications, updateAppearance } =
+    usePreferencesStore();
 
   // Profile form
   const profileForm = useForm<ProfileFormData>({
@@ -188,26 +183,30 @@ const Settings = () => {
                 </h3>
                 <div className="space-y-4">
                   <Toggle
-                    checked={emailNotifications}
-                    onChange={setEmailNotifications}
+                    checked={notifications.email}
+                    onChange={(value) => updateNotifications({ email: value })}
                     label="Email Notifications"
                     description="Receive notifications via email"
                   />
                   <Toggle
-                    checked={pushNotifications}
-                    onChange={setPushNotifications}
+                    checked={notifications.push}
+                    onChange={(value) => updateNotifications({ push: value })}
                     label="Push Notifications"
                     description="Receive push notifications in your browser"
                   />
                   <Toggle
-                    checked={weeklyDigest}
-                    onChange={setWeeklyDigest}
+                    checked={notifications.weeklyDigest}
+                    onChange={(value) =>
+                      updateNotifications({ weeklyDigest: value })
+                    }
                     label="Weekly Digest"
                     description="Get a weekly summary of your activity"
                   />
                   <Toggle
-                    checked={marketingEmails}
-                    onChange={setMarketingEmails}
+                    checked={notifications.marketing}
+                    onChange={(value) =>
+                      updateNotifications({ marketing: value })
+                    }
                     label="Marketing Emails"
                     description="Receive emails about new features and updates"
                   />
@@ -302,14 +301,16 @@ const Settings = () => {
                 </h3>
                 <div className="space-y-4">
                   <Toggle
-                    checked={darkMode}
-                    onChange={setDarkMode}
+                    checked={appearance.darkMode}
+                    onChange={(value) => updateAppearance({ darkMode: value })}
                     label="Dark Mode"
                     description="Enable dark theme across the application"
                   />
                   <Toggle
-                    checked={compactMode}
-                    onChange={setCompactMode}
+                    checked={appearance.compactMode}
+                    onChange={(value) =>
+                      updateAppearance({ compactMode: value })
+                    }
                     label="Compact Mode"
                     description="Reduce spacing for a more compact layout"
                   />
@@ -325,11 +326,17 @@ const Settings = () => {
                     <label className="block text-sm font-medium text-gray-700 mb-1.5">
                       Language
                     </label>
-                    <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500">
-                      <option>English (US)</option>
-                      <option>Spanish</option>
-                      <option>French</option>
-                      <option>German</option>
+                    <select
+                      value={appearance.language}
+                      onChange={(e) =>
+                        updateAppearance({ language: e.target.value })
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                    >
+                      <option value="en-US">English (US)</option>
+                      <option value="es">Spanish</option>
+                      <option value="fr">French</option>
+                      <option value="de">German</option>
                     </select>
                   </div>
 
@@ -337,11 +344,17 @@ const Settings = () => {
                     <label className="block text-sm font-medium text-gray-700 mb-1.5">
                       Timezone
                     </label>
-                    <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500">
-                      <option>UTC-8 (Pacific Time)</option>
-                      <option>UTC-5 (Eastern Time)</option>
-                      <option>UTC+0 (London)</option>
-                      <option>UTC+1 (Paris)</option>
+                    <select
+                      value={appearance.timezone}
+                      onChange={(e) =>
+                        updateAppearance({ timezone: e.target.value })
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                    >
+                      <option value="UTC-8">UTC-8 (Pacific Time)</option>
+                      <option value="UTC-5">UTC-5 (Eastern Time)</option>
+                      <option value="UTC+0">UTC+0 (London)</option>
+                      <option value="UTC+1">UTC+1 (Paris)</option>
                     </select>
                   </div>
                 </div>
