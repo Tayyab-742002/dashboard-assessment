@@ -1,4 +1,24 @@
 {
+  "users": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "email": "john@example.com",
+      "role": "Admin",
+      "status": "active",
+      "avatar": "https://i.pravatar.cc/150?img=1",
+      "createdAt": "2024-01-15T10:30:00Z"
+    },
+    {
+      "id": 2,
+      "name": "Jane Smith",
+      "email": "jane@example.com",
+      "role": "User",
+      "status": "active",
+      "avatar": "https://i.pravatar.cc/150?img=2",
+      "createdAt": "2024-02-20T14:20:00Z"
+    }
+  ],
   "dashboardStats": {
     "totalRevenue": 4521.89,
     "subscriptions": 2350,

@@ -1,4 +1,4 @@
-import type { BaseEntity } from "./commmon.types";
+import type { BaseEntity } from "./common.types";
 
 export interface ChartDataPoint {
   month: string;
