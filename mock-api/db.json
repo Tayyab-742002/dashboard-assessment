@@ -1,0 +1,31 @@
+{
+  "dashboardStats": {
+    "totalRevenue": 45231.89,
+    "subscriptions": 2350,
+    "sales": 12234,
+    "activeUsers": 573
+  },
+  "recentActivity": [
+    {
+      "id": 1,
+      "user": "Muhammmad Tayyab",
+      "action": "Added a new product",
+      "timestamp": "2024-11-02T10:30:00Z",
+      "amount": 99.99
+    },
+    {
+      "id": 2,
+      "user": "Haroon Javaid",
+      "action": "Updated a product",
+      "timestamp": "2024-11-02T09:15:00Z"
+    }
+  ],
+  "chartData": [
+    { "month": "Jan", "revenue": 4000, "expenses": 2400 },
+    { "month": "Feb", "revenue": 3000, "expenses": 1398 },
+    { "month": "Mar", "revenue": 5000, "expenses": 2800 },
+    { "month": "Apr", "revenue": 4500, "expenses": 3908 },
+    { "month": "May", "revenue": 6000, "expenses": 4800 },
+    { "month": "Jun", "revenue": 5500, "expenses": 3800 }
+  ]
+}
