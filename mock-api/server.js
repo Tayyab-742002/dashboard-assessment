@@ -1,4 +1,7 @@
 import jsonServer from "json-server";
+import "dotenv/config";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 const server = jsonServer.create();
 const router = jsonServer.router("mock-api/db.json");
 const middlewares = jsonServer.defaults();
@@ -13,9 +16,31 @@ server.use((req, res, next) => {
 });
 
 server.use(middlewares);
-server.use("/api", router);
 
-// server listen on port 3000
+// we will need a middleware to check if the user is authenticated or not on each request
+server.use((req, res, next) => {
+  if (req.path === "/auth/login") {
+    next();
+    return;
+  }
+  const token = req.headers.authorization;
+  if (!token || !token.startsWith("Bearer ")) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+  const decoded = jwt.verify(token.split(" ")[1], process.env.JWT_SECRET);
+  if (!decoded) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+  const user = users.find((user) => user.id === decoded.userId);
+  if (!user) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+  req.authUser = user;
+  next();
+});
+
+server.use("/api", router);
+// dashboard endpoints
 server.get("/dashboardStats", (req, res) => {
   res.json(dashboardStats);
 });
@@ -25,6 +50,8 @@ server.get("/recentActivity", (req, res) => {
 server.get("/chartData", (req, res) => {
   res.json(chartData);
 });
+
+// users endpoints
 server.get("/users", (req, res) => {
   res.json(users);
 });
@@ -59,6 +86,36 @@ server.delete("/users/:id", (req, res) => {
   users = users.filter((user) => user.id !== parseInt(req.params.id));
   res.status(204).send();
 });
+
+// auth endpoints
+
+server.post("/auth/login", (req, res) => {
+  const { email, password } = req.body;
+  const user = users.find((user) => user.email === email);
+  if (!user) {
+    return res.status(401).json({ error: "Invalid credentials" });
+  }
+
+  // if user exist, then we need unhashed the db password and compare it with the password from the request
+  const isPasswordValid = bcrypt.compare(password, user.password);
+  if (!isPasswordValid) {
+    return res.status(401).json({ error: "Invalid credentials" });
+  }
+
+  // if password is valid, then we need to generate a token and return it to the client
+
+  const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
+    expiresIn: "1h",
+  });
+
+  // remove password from user object
+  const { password: _, ...userWithoutPassword } = user;
+  res.json({
+    user: userWithoutPassword,
+    token,
+  });
+});
+// server listen on port 3000
 server.listen(3000, () => {
   console.log("MOCK API SERVER IS RUNNING ON PORT 3000");
   console.log("API URL: http://localhost:3000/api");

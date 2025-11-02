@@ -8,4 +8,5 @@ export const API_ENDPOINTS: Record<string, string> = {
   UPDATE_USER: "/users/:id",
   DELETE_USER: "/users/:id",
   ANALYTICS_DATA: "/analyticsData",
+  LOGIN: "/auth/login",
 } as const;
