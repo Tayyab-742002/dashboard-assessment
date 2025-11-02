@@ -4,4 +4,5 @@ export interface StatsCardProps {
   change?: number;
   icon: React.ReactNode;
   iconColor?: string;
+  className?: string;
 }

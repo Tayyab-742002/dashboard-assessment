@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { LayoutDashboard, Users, BarChart3, Settings, X } from "lucide-react";
-
+import logo from "../../../assets/images/logo.png";
 import { ROUTES } from "../../../utils/constants";
 import type { SidebarProps } from "./Sidebar.types";
 import { cn } from "../../../utils/cn";
@@ -34,25 +34,25 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
       {/* Sidebar */}
       <aside
         className={cn(
-          "fixed top-0 left-0 z-40 h-screen transition-transform duration-300",
-          "w-64 bg-white border-r border-gray-400",
+          "fixed top-0 left-0 z-40 bg-white h-screen transition-transform duration-300",
+          "w-64  border-r border-primary/40",
           "lg:translate-x-0",
           isOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
         {/* Logo */}
-        <div className="flex items-center justify-between h-16 px-6 border-b border-gray-200">
+        <div className="flex items-center justify-between h-16 px-6 border-b border-primary/50">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
-              <LayoutDashboard size={20} className="text-white" />
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center">
+            <img src={logo} alt="logo" className="w-8 h-8" />             
             </div>
-            <span className="text-lg font-semibold text-gray-900">
+            <span className="text-lg font-semibold text-primary">
               Analytics
             </span>
           </div>
           <button
             onClick={onClose}
-            className="lg:hidden text-gray-500 hover:text-gray-700"
+            className="lg:hidden text-foreground hover:text-muted-foreground"
           >
             <X size={20} />
           </button>
@@ -67,11 +67,11 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
               onClick={() => onClose()}
               className={({ isActive }) =>
                 cn(
-                  "flex items-center gap-3 px-4 py-3 rounded-lg transition-colors",
+                  "flex items-center gap-3 px-4 py-3 rounded-lg transition-colors duration-300",
                   "text-sm font-medium",
                   isActive
-                    ? "bg-primary-50 text-primary-700"
-                    : "text-gray-700 hover:bg-gray-100"
+                    ? "bg-primary text-primary-foreground"
+                    : "text-foreground hover:bg-primary/30"
                 )
               }
             >

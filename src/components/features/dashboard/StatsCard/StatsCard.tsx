@@ -9,12 +9,13 @@ const StatsCard = ({
   change,
   icon,
   iconColor = "bg-primary-100 text-primary-600",
+  className,
 }: StatsCardProps) => {
   const isPositive = change && change > 0;
   const isNegative = change && change < 0;
 
   return (
-    <Card hover>
+    <Card hover className={cn("p-4", className)}>
       <div className="flex items-start justify-between">
         <div className="flex-1">
           <p className="text-sm font-medium text-gray-600">{title}</p>

@@ -19,9 +19,17 @@ const db = JSON.parse(fs.readFileSync(dbPath, "utf8"));
 
 // configure cors
 server.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH");
+  res.header("Access-Control-Allow-Origin", "http://localhost:5173");
+  res.header(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, PATCH, DELETE, OPTIONS"
+  );
   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.header("Access-Control-Allow-Credentials", "true");
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(204);
+  }
+
   next();
 });
 
@@ -29,7 +37,7 @@ server.use(jsonServer.bodyParser);
 server.use(middlewares);
 
 // auth endpoints (must be before router to work properly)
-server.post("/auth/login", (req, res) => {
+server.post("/api/auth/login", (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
@@ -55,11 +63,16 @@ server.post("/auth/login", (req, res) => {
     expiresIn: "1h",
   });
 
-  // remove password from user object
+  
   const { password: _, ...userWithoutPassword } = user;
 
-  // let save the token to the browser's cookie using cookie parser library
-  res.cookie("token", token, { httpOnly: true, secure: true, maxAge: 3600000 });
+  // Set token in httpOnly cookie
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: false,
+    sameSite: "lax",
+    maxAge: 3600000,
+  });
   res.json({
     user: userWithoutPassword,
     token,
@@ -68,19 +81,36 @@ server.post("/auth/login", (req, res) => {
 
 // we will need a middleware to check if the user is authenticated or not on each request
 server.use((req, res, next) => {
-  console.log("COOKIES : ", req.cookies);
-  if (req.path.startsWith("/auth")) {
+  console.log("REQUEST PATH : ", req.path);
+  if (req.path.startsWith("/api/auth")) {
     next();
     return;
   }
-  const token = req.headers.authorization;
-  if (!token || !token.startsWith("Bearer ")) {
-    return res.status(401).json({ error: "Unauthorized" });
+
+  // Try to get token from Bearer header OR cookie
+  let token;
+  if (req.headers.authorization?.startsWith("Bearer ")) {
+    token = req.headers.authorization.split(" ")[1];
+  } else if (req.headers.cookie) {
+    const cookies = req.headers.cookie.split(";").reduce((acc, cookie) => {
+      const [key, value] = cookie.trim().split("=");
+      acc[key] = value;
+      return acc;
+    }, {});
+    token = cookies.token;
   }
+
+  console.log("BEARER TOKEN : ", req.headers.authorization);
+  console.log("COOKIE TOKEN : ", token);
+
+  if (!token) {
+    return res.status(401).json({ error: "Invalid token" });
+  }
+
   try {
-    const decoded = jwt.verify(token.split(" ")[1], process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     if (!decoded) {
-      return res.status(401).json({ error: "Unauthorized" });
+      return res.status(401).json({ error: "Invalid token" });
     }
     const allUsers = [...db.users, db.admin];
     const user = allUsers.find((user) => user.id === decoded.userId);
