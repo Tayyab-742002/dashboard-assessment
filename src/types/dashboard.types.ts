@@ -12,3 +12,10 @@ export interface RecentActivity extends BaseEntity {
   timestamp: string;
   amount?: number;
 }
+
+export interface DashboardStats extends BaseEntity {
+  totalRevenue: number;
+  subscriptions: number;
+  sales: number;
+  activeUsers: number;
+}

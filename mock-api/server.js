@@ -16,7 +16,15 @@ server.use(middlewares);
 server.use("/api", router);
 
 // server listen on port 3000
-
+server.get("/dashboardStats", (req, res) => {
+  res.json(dashboardStats);
+});
+server.get("/recentActivity", (req, res) => {
+  res.json(recentActivity);
+});
+server.get("/chartData", (req, res) => {
+  res.json(chartData);
+});
 server.listen(3000, () => {
   console.log("MOCK API SERVER IS RUNNING ON PORT 3000");
   console.log("API URL: http://localhost:3000/api");
