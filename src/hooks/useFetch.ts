@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
 import type { ApiError } from "../types/api.types";
 
-interface UseFetchResult {
+interface UseFetchResult<T> {
   data: T | null;
   loading: boolean;
   error: ApiError | null;
   refetch: () => Promise<unknown>;
 }
 
-export function useFetch(
+export function useFetch<T>(
   fetchFn: () => Promise<unknown>,
   dependencies: unknown[]
-): UseFetchResult {
-  const [data, setData] = useState(null);
+): UseFetchResult<T> {
+  const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<ApiError | null>(null);
 
@@ -21,7 +21,7 @@ export function useFetch(
       setLoading(true);
       setError(null);
       const result = await fetchFn();
-      setData(result);
+      setData(result as T);
     } catch (err) {
       setError(err as ApiError);
     } finally {

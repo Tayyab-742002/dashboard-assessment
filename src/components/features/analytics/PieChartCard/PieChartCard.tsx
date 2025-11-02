@@ -2,7 +2,6 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import Card from "../../../common/Card";
 import type { PieChartCardProps } from "./PieChartCard.types";
 import { formatCurrency } from "../../../../utils/formatters";
-import type { PieChartData } from "./PieChartCard.types";
 const COLORS = ["#0ea5e9", "#a855f7", "#22c55e", "#f59e0b", "#ef4444"];
 
 const PieChartCard = ({ title, subtitle, data }: PieChartCardProps) => {
@@ -15,7 +14,7 @@ const PieChartCard = ({ title, subtitle, data }: PieChartCardProps) => {
             <ResponsiveContainer width="100%" height={250}>
               <PieChart>
                 <Pie
-                  data={data as unknown as PieChartData[]}
+                  data={data}
                   cx="50%"
                   cy="50%"
                   labelLine={false}

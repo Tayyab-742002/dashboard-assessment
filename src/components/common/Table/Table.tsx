@@ -47,7 +47,7 @@ function Table<T extends { id: number | string }>({
   if (data.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-500">No data available</p>
+        <p className="text-muted-foreground">No data available</p>
       </div>
     );
   }
@@ -55,15 +55,15 @@ function Table<T extends { id: number | string }>({
   return (
     <div className="overflow-x-auto">
       <table className="w-full">
-        <thead className="bg-gray-50 border-b border-gray-200">
+        <thead className="bg-background border-b border-primary">
           <tr>
             {columns.map((column) => (
               <th
                 key={String(column.key)}
                 className={cn(
-                  "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider",
+                  "px-6 py-3 text-left text-xs font-medium border border-primary/50 text-muted-foreground uppercase tracking-wider",
                   column.sortable &&
-                    "cursor-pointer hover:bg-gray-100 select-none",
+                    "cursor-pointer hover:bg-primary/50 select-none",
                   column.width
                 )}
                 onClick={() => handleSort(column)}
@@ -75,19 +75,19 @@ function Table<T extends { id: number | string }>({
                       <ChevronUp
                         size={12}
                         className={cn(
-                          "text-gray-400",
+                          "text-muted-foreground",
                           sortKey === column.key &&
                             sortDirection === "asc" &&
-                            "text-gray-900"
+                            "text-foreground"
                         )}
                       />
                       <ChevronDown
                         size={12}
                         className={cn(
-                          "text-gray-400 -mt-1",
+                          "text-muted-foreground -mt-1",
                           sortKey === column.key &&
                             sortDirection === "desc" &&
-                            "text-gray-900"
+                            "text-foreground"
                         )}
                       />
                     </div>
@@ -97,7 +97,7 @@ function Table<T extends { id: number | string }>({
             ))}
           </tr>
         </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
+        <tbody className="bg-white divide-y divide-primary/50 border border-primary/50">
           {sortedData.map((item) => (
             <tr
               key={item.id}

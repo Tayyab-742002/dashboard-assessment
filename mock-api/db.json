@@ -2,20 +2,29 @@
   "users": [
     {
       "id": 1,
-      "name": "John Doe",
-      "email": "john@example.com",
+      "name": "Muhammad Tayyab",
+      "email": "tayyab@example.com",
       "role": "Admin",
       "status": "active",
-      "avatar": "https://i.pravatar.cc/150?img=1",
-      "createdAt": "2024-01-15T10:30:00Z"
+      "avatar": "https://i.pravatar.cc/150?img=3",
+      "createdAt": "2024-02-20T14:20:00Z"
     },
     {
       "id": 2,
-      "name": "Jane Smith",
-      "email": "jane@example.com",
+      "name": "Muhammad Haroon",
+      "email": "haroon@example.com",
       "role": "User",
       "status": "active",
       "avatar": "https://i.pravatar.cc/150?img=2",
+      "createdAt": "2024-02-20T14:20:00Z"
+    },
+    {
+      "id": 3,
+      "name": "Muhammad Usman",
+      "email": "usman@example.com",
+      "role": "User",
+      "status": "active",
+      "avatar": "https://i.pravatar.cc/150?img=8",
       "createdAt": "2024-02-20T14:20:00Z"
     }
   ],
