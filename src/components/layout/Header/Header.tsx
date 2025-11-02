@@ -1,11 +1,13 @@
 import { Menu, Bell, Search } from "lucide-react";
 import type { HeaderProps } from "./Header.types";
+import { useAuthStore } from "../../../store/useAuthStore";
 
 const Header = ({ onMenuClick }: HeaderProps) => {
+  const { user } = useAuthStore();
   return (
     <header className="h-16 bg-white border-b border-gray-200 sticky top-0 z-30">
       <div className="h-full px-4 lg:px-6 flex items-center justify-between">
-        {/* Left Menu */}
+        {/* Left section */}
         <button
           onClick={onMenuClick}
           className="lg:hidden p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
@@ -13,7 +15,7 @@ const Header = ({ onMenuClick }: HeaderProps) => {
           <Menu size={24} />
         </button>
 
-        {/* Center Search */}
+        {/* Center section */}
         <div className="hidden md:flex flex-1 max-w-2xl mx-auto">
           <div className="relative w-full">
             <Search
@@ -23,12 +25,12 @@ const Header = ({ onMenuClick }: HeaderProps) => {
             <input
               type="search"
               placeholder="Search..."
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-primary/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
             />
           </div>
         </div>
 
-        {/* Right Notifications and Profile */}
+        {/* Right section */}
         <div className="flex items-center gap-2">
           <button className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors relative">
             <Bell size={20} />
@@ -37,13 +39,15 @@ const Header = ({ onMenuClick }: HeaderProps) => {
 
           <div className="flex items-center gap-3 ml-2 pl-2 border-l border-gray-200">
             <img
-              src="https://i.pravatar.cc/150?img=3"
-              alt="User avatar"
+              src={user?.user?.avatar || ""}
+              alt={user?.user?.name || ""}
               className="w-8 h-8 rounded-full"
             />
             <div className="hidden md:block">
-              <p className="text-sm font-medium text-gray-900">John Doe</p>
-              <p className="text-xs text-gray-500">Admin</p>
+              <p className="text-sm font-medium text-gray-900">
+                {user?.user?.name || "fuck"}
+              </p>
+              <p className="text-xs text-gray-500">{user?.role}</p>
             </div>
           </div>
         </div>

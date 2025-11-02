@@ -17,6 +17,7 @@ export type UserRole = "Admin" | "User" | "Manager";
 
 export interface AuthUser extends User {
   token: string;
+  user: User;
 }
 
 export interface LoginCredentials {

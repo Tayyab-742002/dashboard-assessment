@@ -40,19 +40,19 @@ const RevenueChart = ({ data }: RevenueChartProps) => {
             <Line
               type="monotone"
               dataKey="revenue"
-              stroke="#0ea5e9"
+              stroke="#6e56cf"
               strokeWidth={2}
               name="Revenue"
-              dot={{ fill: "#0ea5e9", r: 4 }}
+              dot={{ fill: "#6e56cf", r: 4 }}
               activeDot={{ r: 6 }}
             />
             <Line
               type="monotone"
               dataKey="expenses"
-              stroke="#a855f7"
+              stroke="#9AA6B2"
               strokeWidth={2}
               name="Expenses"
-              dot={{ fill: "#a855f7", r: 4 }}
+              dot={{ fill: "#9AA6B2", r: 4 }}
               activeDot={{ r: 6 }}
             />
           </LineChart>

@@ -12,10 +12,7 @@ import { formatCurrency, formatNumber } from "../../utils/formatters";
 import { useFetch } from "../../hooks/useFetch";
 import { dashboardService } from "../../api/services/dashboard.service";
 import Spinner from "../../components/common/Spinner";
-import { useAuthStore } from "../../store/useAuthStore";
-
 const Dashboard = () => {
-  const { user } = useAuthStore();
   // fetching stats
   const { data: stats, loading: statsLoading } = useFetch(
     () => dashboardService.getStats(),
@@ -44,8 +41,8 @@ const Dashboard = () => {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-        <p className="text-gray-600 mt-1">
+        <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
+        <p className="text-muted-foreground mt-1">
           Welcome back! Here's what's happening today.
         </p>
       </div>
@@ -86,7 +83,7 @@ const Dashboard = () => {
         />
       </div>
 
-      {/* Chart & Activity Grid */}
+      {/* Chart and Activity  */}
       <div className="grid grid-cols-1 lg:grid-cols-3  gap-6">
         <div className="lg:col-span-2 p-4 shadow-primary">
           <RevenueChart data={chartData || []} />

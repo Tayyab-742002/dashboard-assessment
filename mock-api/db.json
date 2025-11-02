@@ -29,12 +29,25 @@
     {
       "id": 1,
       "user": "Muhammmad Tayyab",
+      "action": "purchased a product",
+      "timestamp": "2024-11-02T10:30:00Z",
+      "amount": 29.99
+    },
+    {
+      "id": 2,
+      "user": "Muhammmad Tayyab",
+      "action": "profile updated",
+      "timestamp": "2024-11-02T10:30:00Z"
+    },
+    {
+      "id": 3,
+      "user": "Muhammmad Tayyab",
       "action": "Added a new product",
       "timestamp": "2024-11-02T10:30:00Z",
       "amount": 99.99
     },
     {
-      "id": 2,
+      "id": 4,
       "user": "Haroon Javaid",
       "action": "Updated a product",
       "timestamp": "2024-11-02T09:15:00Z"
@@ -162,7 +175,7 @@
     "password": "$2b$10$x1Cv0IkbeQevPzWskHpEG.StCaOuy0sYVW3QFf3OjZA6ppO22aBce",
     "role": "Admin",
     "status": "active",
-    "avatar": "https://i.pravatar.cc/150?img=1",
+    "avatar": "https://pub-20f982007aa54df4849bcd969b89a1bf.r2.dev/profile.jpeg",
     "createdAt": "2025-11-02T14:04:04.250Z"
   }
 }
