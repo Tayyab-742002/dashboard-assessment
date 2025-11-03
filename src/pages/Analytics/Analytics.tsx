@@ -11,6 +11,7 @@ import type {
   SalesByCategory,
   UserGrowth,
 } from "../../types/analytics.types";
+import ErrorBoundary from "../../components/common/ErrorBoundary";
 
 const PieChartCard = lazy(
   () => import("../../components/features/analytics/PieChartCard")
@@ -126,29 +127,35 @@ const Analytics = () => {
       {/* Charts Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="shadow-primary">
-          <Suspense fallback={<Spinner size="lg" label="Loading..." />}>
-            <PieChartCard
-              title="Sales by Category"
-              subtitle="Distribution of sales across categories"
-              data={analyticsData?.salesByCategory || []}
-            />
-          </Suspense>
+          <ErrorBoundary>
+            <Suspense fallback={<Spinner size="lg" label="Loading..." />}>
+              <PieChartCard
+                title="Sales by Category"
+                subtitle="Distribution of sales across categories"
+                data={analyticsData?.salesByCategory || []}
+              />
+            </Suspense>
+          </ErrorBoundary>
         </div>
 
         <div className="shadow-primary">
-          <Suspense fallback={<Spinner size="lg" label="Loading..." />}>
-            <MetricsCard title="Revenue Sources" metrics={revenueMetrics} />
-          </Suspense>
+          <ErrorBoundary>
+            <Suspense fallback={<Spinner size="lg" label="Loading..." />}>
+              <MetricsCard title="Revenue Sources" metrics={revenueMetrics} />
+            </Suspense>
+          </ErrorBoundary>
         </div>
       </div>
       <div className="shadow-primary">
-        <Suspense fallback={<Spinner size="lg" label="Loading..." />}>
-          <BarChartCard
-            title="User Growth"
-            subtitle="Monthly user acquisition and growth rate"
-            data={analyticsData?.userGrowth || []}
-          />
-        </Suspense>
+        <ErrorBoundary>
+          <Suspense fallback={<Spinner size="lg" label="Loading..." />}>
+            <BarChartCard
+              title="User Growth"
+              subtitle="Monthly user acquisition and growth rate"
+              data={analyticsData?.userGrowth || []}
+            />
+          </Suspense>
+        </ErrorBoundary>
       </div>
     </div>
   );
