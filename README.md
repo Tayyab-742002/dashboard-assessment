@@ -267,3 +267,19 @@ Performance and UX
 
 Author
 Muhammad Tayyab – Portfolio: https://eviorcode.online
+
+Screenshots
+
+Below are key screens from the application:
+
+Dashboard
+![Dashboard](./src/assets/images/Dashboard.png)
+
+Users
+![Users](./src/assets/images/Users.png)
+
+Analytics
+![Analytics](./src/assets/images/Analytics.png)
+
+Settings
+![Settings](./src/assets/images/Settings.png)
