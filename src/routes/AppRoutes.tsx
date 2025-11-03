@@ -1,14 +1,22 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import MainLayout from "../components/layout/MainLayout";
-import Dashboard from "../pages/Dashboard/Dashboard.tsx";
-import Users from "../pages/Users/Users.tsx";
-import Analytics from "../pages/Analytics/Analytics.tsx";
-import Settings from "../pages/Settings/Settings.tsx";
-import NotFound from "../pages/NotFound/NotFound.tsx";
 import { ROUTES } from "../utils/constants";
-import Login from "../pages/Login/Login.tsx";
 import { ProtectedRoute } from "../components/ProtectedRoute.tsx";
+import { lazy, Suspense } from "react";
+import Spinner from "../components/common/Spinner/Spinner.tsx";
 
+const Dashboard = lazy(() => import("../pages/Dashboard/Dashboard.tsx"));
+const Users = lazy(() => import("../pages/Users/Users.tsx"));
+const Analytics = lazy(() => import("../pages/Analytics/Analytics.tsx"));
+const Settings = lazy(() => import("../pages/Settings/Settings.tsx"));
+const NotFound = lazy(() => import("../pages/NotFound/NotFound.tsx"));
+const Login = lazy(() => import("../pages/Login/Login.tsx"));
+
+const suspense = (node: React.ReactNode) => (
+  <Suspense fallback={<Spinner size="lg" label="Loading..." />}>
+    {node}
+  </Suspense>
+);
 export const router = createBrowserRouter([
   {
     element: <ProtectedRoute />,
@@ -23,19 +31,19 @@ export const router = createBrowserRouter([
           },
           {
             path: ROUTES.DASHBOARD,
-            element: <Dashboard />,
+            element: suspense(<Dashboard />),
           },
           {
             path: ROUTES.USERS,
-            element: <Users />,
+            element: suspense(<Users />),
           },
           {
             path: ROUTES.ANALYTICS,
-            element: <Analytics />,
+            element: suspense(<Analytics />),
           },
           {
             path: ROUTES.SETTINGS,
-            element: <Settings />,
+            element: suspense(<Settings />),
           },
         ],
       },
@@ -43,10 +51,10 @@ export const router = createBrowserRouter([
   },
   {
     path: ROUTES.LOGIN,
-    element: <Login />,
+    element: suspense(<Login />),
   },
   {
     path: "*",
-    element: <NotFound />,
+    element: suspense(<NotFound />),
   },
 ]);
