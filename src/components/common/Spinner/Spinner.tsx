@@ -1,24 +1,19 @@
 import { Loader2 } from "lucide-react";
 import { cn } from "../../../utils/cn";
-import { memo } from "react";
 import type { SpinnerProps } from "./Spinner.types";
-
-const Spinner = ({ size = "md", className, label }: SpinnerProps) => {
-  const sizes = {
-    sm: "w-4 h-4",
-    md: "w-6 h-6",
-    lg: "w-8 h-8",
-    xl: "w-12 h-12",
-  };
-
+import logo from "../../../assets/images/logo.png";
+const Spinner = ({ className, label }: SpinnerProps) => {
   return (
     <div className="flex flex-col items-center justify-center gap-2">
-      <Loader2
-        className={cn("animate-spin text-primary-600", sizes[size], className)}
-      />
-      {label && <span className="text-sm text-gray-600">{label}</span>}
+      <img src={logo} alt="logo" className="w-10 h-10 animate-pulse" />
+      <div className="flex flex-row items-center justify-center gap-2">
+        <Loader2 className={cn("animate-spin text-primary", className)} />
+        {label && (
+          <span className="text-sm text-muted-foreground">{label}</span>
+        )}
+      </div>
     </div>
   );
 };
 
-export default memo(Spinner);
+export default Spinner;

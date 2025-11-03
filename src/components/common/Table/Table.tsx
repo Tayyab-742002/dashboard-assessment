@@ -99,23 +99,36 @@ function Table<T extends { id: number | string }>({
         <tbody className="bg-white divide-y divide-primary/50 border border-primary/50">
           {sortedData.map((item) => (
             <tr
-              key={item.id}
+              key={String(item.id)}
               onClick={() => onRowClick?.(item)}
               className={cn(
                 "hover:bg-gray-50 transition-colors",
                 onRowClick && "cursor-pointer"
               )}
             >
-              {columns.map((column) => (
-                <td
-                  key={String(column.key)}
-                  className="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
-                >
-                  {column.render
-                    ? column.render(item)
-                    : String(item[column.key as keyof T] || "-")}
-                </td>
-              ))}
+              {columns.map((column) => {
+                const cellContent = column.render
+                  ? column.render(item)
+                  : String(item[column.key as keyof T] || "-");
+                return (
+                  <td
+                    key={`${String(item.id)}-${String(column.key)}`}
+                    className="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
+                  >
+                    {Array.isArray(cellContent)
+                      ? cellContent.map((node, idx) => (
+                          <span
+                            key={`${String(item.id)}-${String(
+                              column.key
+                            )}-${idx}`}
+                          >
+                            {node}
+                          </span>
+                        ))
+                      : cellContent}
+                  </td>
+                );
+              })}
             </tr>
           ))}
         </tbody>
