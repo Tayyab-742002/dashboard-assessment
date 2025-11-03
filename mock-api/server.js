@@ -19,7 +19,7 @@ const db = JSON.parse(fs.readFileSync(dbPath, "utf8"));
 
 // configure cors
 server.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "http://localhost:5173");
+  res.header("Access-Control-Allow-Origin", req.headers.origin);
   res.header(
     "Access-Control-Allow-Methods",
     "GET, POST, PUT, PATCH, DELETE, OPTIONS"

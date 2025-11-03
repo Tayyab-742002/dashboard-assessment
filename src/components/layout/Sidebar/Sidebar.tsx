@@ -4,8 +4,6 @@ import logo from "../../../assets/images/logo.png";
 import { ROUTES } from "../../../utils/constants";
 import type { SidebarProps } from "./Sidebar.types";
 import { cn } from "../../../utils/cn";
-import Analytics from "../../../pages/Analytics/Analytics";
-
 const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
   const navItems = [
     {
