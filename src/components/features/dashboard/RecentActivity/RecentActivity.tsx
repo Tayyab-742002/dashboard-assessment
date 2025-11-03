@@ -61,17 +61,17 @@ const RecentActivityComponent = ({ activities }: RecentActivityProps) => {
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between gap-2">
-                    <div className="flex-1">
-                      <p className="text-sm font-medium text-neutral-900">
+                    <div className="flex-1 min-w-0 overflow-hidden">
+                      <p className="text-sm font-medium text-neutral-900 truncate">
                         {activity.user}
                       </p>
-                      <p className="text-sm text-neutral-700 mt-0.5">
+                      <p className="text-sm text-neutral-700 mt-0.5 truncate">
                         {activity.action}
                       </p>
                     </div>
 
                     {activity.amount && (
-                      <span className="text-sm font-semibold text-green-800">
+                      <span className="text-sm font-semibold text-green-800 shrink-0 ml-2">
                         {formatCurrency(activity.amount)}
                       </span>
                     )}

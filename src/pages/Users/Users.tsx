@@ -117,6 +117,8 @@ const Users = () => {
         <img
           src={user.avatar}
           alt={user.name}
+          loading="lazy"
+          decoding="async"
           className="w-10 h-10 rounded-full"
         />
       ),

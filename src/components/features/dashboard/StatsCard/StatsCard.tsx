@@ -2,7 +2,6 @@ import { TrendingUp, TrendingDown } from "lucide-react";
 import { cn } from "../../../../utils/cn";
 import Card from "../../../common/Card";
 import type { StatsCardProps } from "./StatsCard.types";
-
 const StatsCard = ({
   title,
   value,
