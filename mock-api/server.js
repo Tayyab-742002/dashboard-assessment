@@ -63,7 +63,6 @@ server.post("/api/auth/login", (req, res) => {
     expiresIn: "1h",
   });
 
-  
   const { password: _, ...userWithoutPassword } = user;
 
   // Set token in httpOnly cookie
@@ -100,8 +99,8 @@ server.use((req, res, next) => {
     token = cookies.token;
   }
 
-  console.log("BEARER TOKEN : ", req.headers.authorization);
-  console.log("COOKIE TOKEN : ", token);
+  // console.log("BEARER TOKEN : ", req.headers.authorization);
+  // console.log("COOKIE TOKEN : ", token);
 
   if (!token) {
     return res.status(401).json({ error: "Invalid token" });
@@ -124,24 +123,26 @@ server.use((req, res, next) => {
   }
 });
 
-server.use("/api", router);
-
 // dashboard endpoints
-server.get("/dashboardStats", (req, res) => {
+server.get("/api/dashboardStats", (req, res) => {
   res.json(db.dashboardStats);
 });
-server.get("/recentActivity", (req, res) => {
+server.get("/api/recentActivity", (req, res) => {
   res.json(db.recentActivity);
 });
-server.get("/chartData", (req, res) => {
+server.get("/api/chartData", (req, res) => {
   res.json(db.chartData);
 });
 
+// analytics endpoints
+server.get("/api/analyticsData", (req, res) => {
+  res.json(db.analyticsData);
+});
 // users endpoints
-server.get("/users", (req, res) => {
+server.get("/api/users", (req, res) => {
   res.json([...db.users, db.admin]);
 });
-server.get("/users/:id", (req, res) => {
+server.get("/api/users/:id", (req, res) => {
   const allUsers = [...db.users, db.admin];
   const user = allUsers.find((user) => user.id === parseInt(req.params.id));
   if (!user) {
@@ -149,13 +150,17 @@ server.get("/users/:id", (req, res) => {
   }
   res.json(user);
 });
-server.post("/users", (req, res) => {
+server.post("/api/users", (req, res) => {
   const newUser = req.body;
+  newUser.avatar = `https://i.pravatar.cc/150?img=${Math.floor(
+    Math.random() * 70
+  )}`;
+  newUser.createdAt = new Date().toISOString();
   db.users.push(newUser);
   fs.writeFileSync(dbPath, JSON.stringify(db, null, 2));
   res.status(201).json(newUser);
 });
-server.put("/users/:id", (req, res) => {
+server.put("/api/users/:id", (req, res) => {
   const allUsers = [...db.users, db.admin];
   const user = allUsers.find((user) => user.id === parseInt(req.params.id));
   if (!user) {
@@ -165,10 +170,12 @@ server.put("/users/:id", (req, res) => {
   user.email = req.body.email;
   user.role = req.body.role;
   user.status = req.body.status;
+  user.avatar = user.avatar;
+  user.createdAt = user.createdAt;
   fs.writeFileSync(dbPath, JSON.stringify(db, null, 2));
   res.json(user);
 });
-server.delete("/users/:id", (req, res) => {
+server.delete("/api/users/:id", (req, res) => {
   const userIndex = db.users.findIndex(
     (user) => user.id === parseInt(req.params.id)
   );

@@ -1,12 +1,12 @@
 {
   "users": [
     {
-      "id": 1,
-      "name": "Muhammad Tayyab",
-      "email": "tayyab@example.com",
-      "role": "Admin",
+      "name": "Usama Bin Ladding",
+      "email": "usama@example.com",
+      "role": "User",
       "status": "active",
-      "avatar": "https://i.pravatar.cc/150?img=3",
+      "id": 1,
+      "avatar": "https://i.pravatar.cc/150?img=2",
       "createdAt": "2024-02-20T14:20:00Z"
     },
     {
@@ -26,10 +26,19 @@
       "status": "active",
       "avatar": "https://i.pravatar.cc/150?img=8",
       "createdAt": "2024-02-20T14:20:00Z"
+    },
+    {
+      "name": "Testing User",
+      "email": "test@gmail.com",
+      "role": "Manager",
+      "status": "inactive",
+      "avatar": "https://i.pravatar.cc/150?img=18",
+      "createdAt": "2025-11-03T06:18:50.017Z",
+      "id": 4
     }
   ],
   "dashboardStats": {
-    "totalRevenue": 31100.0,
+    "totalRevenue": 31100,
     "subscriptions": 2350,
     "sales": 12800,
     "activeUsers": 670

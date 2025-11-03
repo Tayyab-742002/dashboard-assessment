@@ -199,7 +199,7 @@ const Users = () => {
         </Button>
       </div>
 
-      {/* Search & Filters */}
+      {/* Search and Filters */}
       <Card>
         <div className="flex gap-4">
           <div className="flex-1">
