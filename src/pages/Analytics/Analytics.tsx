@@ -1,25 +1,67 @@
 import { TrendingUp, Users, DollarSign, ShoppingBag } from "lucide-react";
-import { useFetch } from "../../hooks/useFetch";
-import { analyticsService } from "../../api/services/analytics.service";
+// import { useFetch } from "../../hooks/useFetch";
+// import { analyticsService } from "../../api/services/analytics.service";
 import Spinner from "../../components/common/Spinner";
 import StatsCard from "../../components/features/dashboard/StatsCard";
 import PieChartCard from "../../components/features/analytics/PieChartCard";
 import BarChartCard from "../../components/features/analytics/BarChartCard";
 import MetricsCard from "../../components/features/analytics/MetricsCard";
 import { formatCurrency, formatNumber } from "../../utils/formatters";
+import { useAnalyticsData } from "../../hooks/queries/useAnalytics";
 import type {
-  AnalyticsData,
   RevenueBreakdown,
   SalesByCategory,
   UserGrowth,
 } from "../../types/analytics.types";
+import { useMemo } from "react";
 
 const Analytics = () => {
-  const { data: analyticsData, loading } = useFetch<AnalyticsData>(
-    () => analyticsService.getAnalyticsData(),
-    []
+  // const { data: analyticsData, loading } = useFetch<AnalyticsData>(
+  //   () => analyticsService.getAnalyticsData(),
+  //   []
+  // );
+  const { data: analyticsData, isLoading: loading } = useAnalyticsData();
+  const totalSales = useMemo(
+    () =>
+      (analyticsData?.salesByCategory ?? []).reduce(
+        (sum: number, item: SalesByCategory) => sum + item.value,
+        0
+      ),
+    [analyticsData?.salesByCategory]
+  );
+  const totalUsers = useMemo(
+    () =>
+      analyticsData?.userGrowth[analyticsData.userGrowth.length - 1]?.users ||
+      0,
+    [analyticsData?.userGrowth]
   );
 
+  const totalRevenue = useMemo(
+    () =>
+      (analyticsData?.revenueBreakdown ?? []).reduce(
+        (sum: number, item: RevenueBreakdown) => sum + item.value,
+        0
+      ),
+    [analyticsData?.revenueBreakdown]
+  );
+  const avgGrowth = useMemo(
+    () =>
+      (analyticsData?.userGrowth ?? []).reduce(
+        (sum: number, item: UserGrowth) => sum + item.growth,
+        0
+      ) / (analyticsData?.userGrowth?.length ?? 0),
+    [analyticsData?.userGrowth]
+  );
+
+  const revenueMetrics = useMemo(
+    () =>
+      analyticsData?.revenueBreakdown.map((item: RevenueBreakdown) => ({
+        label: item.source,
+        value: formatCurrency(item.value),
+        color: item.color,
+      })) || [],
+    [analyticsData?.revenueBreakdown]
+  );
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
@@ -27,36 +69,6 @@ const Analytics = () => {
       </div>
     );
   }
-
-  const totalSales =
-    analyticsData?.salesByCategory.reduce(
-      (sum: number, item: SalesByCategory) => sum + item.value,
-      0
-    ) || 0;
-
-  const totalUsers =
-    analyticsData?.userGrowth[analyticsData.userGrowth.length - 1]?.users || 0;
-
-  const totalRevenue =
-    analyticsData?.revenueBreakdown.reduce(
-      (sum: number, item: RevenueBreakdown) => sum + item.value,
-      0
-    ) || 0;
-
-  const avgGrowth =
-    analyticsData?.userGrowth && analyticsData.userGrowth.length > 0
-      ? analyticsData.userGrowth.reduce(
-          (sum: number, item: UserGrowth) => sum + item.growth,
-          0
-        ) / analyticsData.userGrowth.length
-      : 0;
-
-  const revenueMetrics =
-    analyticsData?.revenueBreakdown.map((item: RevenueBreakdown) => ({
-      label: item.source,
-      value: formatCurrency(item.value),
-      color: item.color,
-    })) || [];
 
   return (
     <div className="space-y-6">

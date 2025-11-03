@@ -4,36 +4,45 @@ import {
   ShoppingCart,
   Activity,
 } from "lucide-react";
-
+import {
+  useDashboardStats,
+  useRecentActivity,
+  useChartData,
+} from "../../hooks/queries/useDashboard";
 import StatsCard from "../../components/features/dashboard/StatsCard";
 import RevenueChart from "../../components/features/dashboard/RevenueChart";
 import RecentActivityComponent from "../../components/features/dashboard/RecentActivity";
 import { formatCurrency, formatNumber } from "../../utils/formatters";
-import { useFetch } from "../../hooks/useFetch";
-import { dashboardService } from "../../api/services/dashboard.service";
+// import { useFetch } from "../../hooks/useFetch";
+// import { dashboardService } from "../../api/services/dashboard.service";
 import Spinner from "../../components/common/Spinner";
-import type {
-  ChartDataPoint,
-  DashboardStats,
-  RecentActivity,
-} from "../../types/dashboard.types";
+// import type {
+//   ChartDataPoint,
+//   DashboardStats,
+//   RecentActivity,
+// } from "../../types/dashboard.types";
 const Dashboard = () => {
-  // fetching stats
-  const { data: stats, loading: statsLoading } = useFetch<DashboardStats>(
-    () => dashboardService.getStats(),
-    []
-  );
+  // useFetch hook for fetching data
+  // const { data: stats, loading: statsLoading } = useFetch<DashboardStats>(
+  //   () => dashboardService.getStats(),
+  //   []
+  // );
+  // const { data: recentActivity, loading: recentActivityLoading } = useFetch<
+  //   RecentActivity[]
+  // >(() => dashboardService.getRecentActivity(), []);
 
+  // // fetching chart's data
+  // const { data: chartData, loading: chartDataLoading } = useFetch<
+  //   ChartDataPoint[]
+  // >(() => dashboardService.getChartData(), []);
+  const { data: stats, isLoading: statsLoading } = useDashboardStats();
+
+  const { data: recentActivity, isLoading: recentActivityLoading } =
+    useRecentActivity();
+  const { data: chartData, isLoading: chartLoading } = useChartData();
   // fetching recent activities
-  const { data: recentActivity, loading: recentActivityLoading } = useFetch<
-    RecentActivity[]
-  >(() => dashboardService.getRecentActivity(), []);
 
-  // fetching chart's data
-  const { data: chartData, loading: chartDataLoading } = useFetch<
-    ChartDataPoint[]
-  >(() => dashboardService.getChartData(), []);
-  if (statsLoading || recentActivityLoading || chartDataLoading) {
+  if (statsLoading || recentActivityLoading || chartLoading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
         <Spinner size="lg" label="Loading dashboard..." />
@@ -83,7 +92,6 @@ const Dashboard = () => {
           icon={<Activity size={24} />}
           iconColor="text-white bg-orange-500/80"
           className="shadow-2xl"
-          v
         />
       </div>
 

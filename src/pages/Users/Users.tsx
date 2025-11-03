@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { UserPlus, Search, Pencil, Trash2 } from "lucide-react";
-import { useFetch } from "../../hooks/useFetch";
-import { userService } from "../../api/services/user.service"; //need to define the user services
+// import { useFetch } from "../../hooks/useFetch";
+// import { userService } from "../../api/services/user.service"; //need to define the user services
 import type { User } from "../../types/user.types";
 import Card from "../../components/common/Card";
 import Button from "../../components/common/Button";
@@ -13,7 +13,12 @@ import UserForm from "../../components/features/users/UserForm/UserForm";
 import type { UserFormData } from "../../components/features/users/UserForm/UserForm.types";
 import { formatDate } from "../../utils/formatters";
 import { useDebounce } from "../../hooks/useDebounce";
-
+import { useUsers } from "../../hooks/queries/useUsers";
+import {
+  useCreateUser,
+  useUpdateUser,
+  useDeleteUser,
+} from "../../hooks/mutations/useUserMutations";
 const Users = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,11 +29,10 @@ const Users = () => {
 
   const debouncedSearch = useDebounce(searchQuery, 300);
 
-  const {
-    data: users,
-    loading,
-    refetch,
-  } = useFetch(() => userService.getUsers(), []);
+  const { data: users, isLoading: loading } = useUsers();
+  const createUser = useCreateUser();
+  const updateUser = useUpdateUser();
+  const deleteUser = useDeleteUser();
 
   const filteredUsers =
     users?.filter(
@@ -40,14 +44,13 @@ const Users = () => {
   const handleCreateUser = async (data: UserFormData) => {
     setIsSubmitting(true);
     try {
-      await userService.createUser({
+      await createUser.mutateAsync({
         ...data,
         avatar: `https://i.pravatar.cc/150?img=${Math.floor(
           Math.random() * 70
         )}`,
         createdAt: new Date().toISOString(),
       } as User);
-      (await refetch()) as Promise<void>;
       setIsModalOpen(false);
       setSelectedUser(undefined);
     } catch (error) {
@@ -62,8 +65,16 @@ const Users = () => {
 
     setIsSubmitting(true);
     try {
-      await userService.updateUser(selectedUser.id.toString(), data as User);
-      (await refetch()) as Promise<void>;
+      await updateUser.mutateAsync({
+        id: selectedUser.id.toString(),
+        data: {
+          ...data,
+          avatar: `https://i.pravatar.cc/150?img=${Math.floor(
+            Math.random() * 70
+          )}`,
+          createdAt: new Date().toISOString(),
+        } as User,
+      });
       setIsModalOpen(false);
       setSelectedUser(undefined);
     } catch (error) {
@@ -78,8 +89,7 @@ const Users = () => {
 
     setIsSubmitting(true);
     try {
-      await userService.deleteUser(userToDelete.id.toString());
-      (await refetch()) as Promise<void>;
+      await deleteUser.mutateAsync(userToDelete.id.toString());
       setIsDeleteModalOpen(false);
       setUserToDelete(undefined);
     } catch (error) {
