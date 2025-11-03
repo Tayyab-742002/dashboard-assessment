@@ -1,0 +1,8 @@
+// login test 
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@admin.co",
+  "password": "admin123"
+}

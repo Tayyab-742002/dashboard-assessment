@@ -1,0 +1,207 @@
+{
+  "users": [
+    {
+      "name": "Usama Bin Ladding",
+      "email": "usama@example.com",
+      "role": "User",
+      "status": "active",
+      "id": 1,
+      "avatar": "https://i.pravatar.cc/150?img=2",
+      "createdAt": "2024-02-20T14:20:00Z"
+    },
+    {
+      "id": 2,
+      "name": "Muhammad Haroon",
+      "email": "haroon@example.com",
+      "role": "User",
+      "status": "active",
+      "avatar": "https://i.pravatar.cc/150?img=2",
+      "createdAt": "2024-02-20T14:20:00Z"
+    },
+    {
+      "id": 3,
+      "name": "Muhammad Usman",
+      "email": "usman@example.com",
+      "role": "User",
+      "status": "active",
+      "avatar": "https://i.pravatar.cc/150?img=8",
+      "createdAt": "2024-02-20T14:20:00Z"
+    },
+    {
+      "name": "Testing User",
+      "email": "test@gmail.com",
+      "role": "Manager",
+      "status": "inactive",
+      "avatar": "https://i.pravatar.cc/150?img=18",
+      "createdAt": "2025-11-03T06:18:50.017Z",
+      "id": 4
+    },
+    {
+      "name": "Testing 3",
+      "email": "test3@gmail.com",
+      "role": "Manager",
+      "status": "inactive",
+      "avatar": "https://i.pravatar.cc/150?img=37",
+      "createdAt": "2025-11-03T07:53:54.310Z"
+    }
+  ],
+  "dashboardStats": {
+    "totalRevenue": 31100,
+    "subscriptions": 2350,
+    "sales": 12800,
+    "activeUsers": 670
+  },
+  "recentActivity": [
+    {
+      "id": 1,
+      "user": "Muhammmad Tayyab",
+      "action": "purchased a product",
+      "timestamp": "2024-11-02T10:30:00Z",
+      "amount": 29.99
+    },
+    {
+      "id": 2,
+      "user": "Muhammmad Tayyab",
+      "action": "profile updated",
+      "timestamp": "2024-11-02T10:30:00Z"
+    },
+    {
+      "id": 3,
+      "user": "Muhammmad Tayyab",
+      "action": "Added a new product",
+      "timestamp": "2024-11-02T10:30:00Z",
+      "amount": 99.99
+    },
+    {
+      "id": 4,
+      "user": "Haroon Javaid",
+      "action": "Updated a product",
+      "timestamp": "2024-11-02T09:15:00Z"
+    }
+  ],
+  "chartData": [
+    {
+      "month": "Jan",
+      "revenue": 4000,
+      "expenses": 2400
+    },
+    {
+      "month": "Feb",
+      "revenue": 3000,
+      "expenses": 1398
+    },
+    {
+      "month": "Mar",
+      "revenue": 5000,
+      "expenses": 2800
+    },
+    {
+      "month": "Apr",
+      "revenue": 4500,
+      "expenses": 3908
+    },
+    {
+      "month": "May",
+      "revenue": 6000,
+      "expenses": 4800
+    },
+    {
+      "month": "Jun",
+      "revenue": 5500,
+      "expenses": 3800
+    }
+  ],
+  "analyticsData": {
+    "salesByCategory": [
+      {
+        "name": "Electronics",
+        "value": 4500,
+        "percentage": 35
+      },
+      {
+        "name": "Clothing",
+        "value": 3200,
+        "percentage": 25
+      },
+      {
+        "name": "Food",
+        "value": 2600,
+        "percentage": 20
+      },
+      {
+        "name": "Books",
+        "value": 1500,
+        "percentage": 12
+      },
+      {
+        "name": "Other",
+        "value": 1000,
+        "percentage": 8
+      }
+    ],
+    "userGrowth": [
+      {
+        "month": "Jan",
+        "users": 150,
+        "growth": 12
+      },
+      {
+        "month": "Feb",
+        "users": 230,
+        "growth": 53
+      },
+      {
+        "month": "Mar",
+        "users": 310,
+        "growth": 35
+      },
+      {
+        "month": "Apr",
+        "users": 420,
+        "growth": 35
+      },
+      {
+        "month": "May",
+        "users": 540,
+        "growth": 29
+      },
+      {
+        "month": "Jun",
+        "users": 670,
+        "growth": 24
+      }
+    ],
+    "revenueBreakdown": [
+      {
+        "source": "Direct",
+        "value": 12500,
+        "color": "#0ea5e9"
+      },
+      {
+        "source": "Referral",
+        "value": 8300,
+        "color": "#a855f7"
+      },
+      {
+        "source": "Social",
+        "value": 6200,
+        "color": "#22c55e"
+      },
+      {
+        "source": "Email",
+        "value": 4100,
+        "color": "#f59e0b"
+      }
+    ]
+  },
+  "admin": {
+    "id": 0,
+    "name": "Admin",
+    "email": "admin@admin.co",
+    "password": "$2b$10$x1Cv0IkbeQevPzWskHpEG.StCaOuy0sYVW3QFf3OjZA6ppO22aBce",
+    "role": "Admin",
+    "status": "active",
+    "avatar": "https://pub-20f982007aa54df4849bcd969b89a1bf.r2.dev/profile.jpeg",
+    "createdAt": "2025-11-02T14:04:04.250Z"
+  }
+}
