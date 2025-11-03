@@ -9,8 +9,8 @@ const PieChartCard = ({ title, subtitle, data, className=""}: PieChartCardProps)
     <Card className={className}>
       <Card.Header title={title} subtitle={subtitle} />
       <Card.Content>
-        <div className="flex flex-col lg:flex-row gap-6">
-          <div className="flex-1">
+        <div className="flex flex-col xl:flex-row gap-6">
+          <div className="flex-1 min-w-0">
             <ResponsiveContainer width="100%" height={250}>
               <PieChart>
                 <Pie
@@ -41,20 +41,20 @@ const PieChartCard = ({ title, subtitle, data, className=""}: PieChartCardProps)
             </ResponsiveContainer>
           </div>
 
-          <div className="flex-1 space-y-3">
+          <div className="flex-1 min-w-0 space-y-3">
             {data.map((item, index) => (
               <div
                 key={item.name}
                 className="flex items-center justify-between"
               >
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 min-w-0 flex-1">
                   <div
                     className="w-3 h-3 rounded-full"
                     style={{ backgroundColor: COLORS[index % COLORS.length] }}
                   />
-                  <span className="text-sm text-muted-foreground">{item.name}</span>
+                  <span className="text-sm text-muted-foreground truncate">{item.name}</span>
                 </div>
-                <div className="text-right">
+                <div className="text-right shrink-0">
                   <p className="text-sm font-semibold text-foreground">
                     {formatCurrency(item.value)}
                   </p>

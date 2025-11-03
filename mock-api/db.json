@@ -35,6 +35,14 @@
       "avatar": "https://i.pravatar.cc/150?img=18",
       "createdAt": "2025-11-03T06:18:50.017Z",
       "id": 4
+    },
+    {
+      "name": "Testing 3",
+      "email": "test3@gmail.com",
+      "role": "Manager",
+      "status": "inactive",
+      "avatar": "https://i.pravatar.cc/150?img=37",
+      "createdAt": "2025-11-03T07:53:54.310Z"
     }
   ],
   "dashboardStats": {

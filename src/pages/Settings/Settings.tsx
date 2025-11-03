@@ -61,7 +61,7 @@ const Settings = () => {
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-foreground">Settings</h1>
-        <p className="text-gray-600 mt-1">
+        <p className="text-muted-foreground mt-1">
           Manage your application settings and preferences.
         </p>
       </div>
@@ -165,7 +165,7 @@ const Settings = () => {
                 </div>
               </div>
 
-              <div className="flex justify-end pt-4 border-t border-gray-200">
+              <div className="flex justify-end pt-4 border-t border-gray-400">
                 <Button leftIcon={<Save size={18} />}>Save Preferences</Button>
               </div>
             </div>
