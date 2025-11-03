@@ -1,12 +1,12 @@
 {
   "users": [
     {
-      "name": "Usama Bin Ladding",
-      "email": "usama@example.com",
+      "name": "Mairaj Ahmed",
+      "email": "mairaj@example.com",
       "role": "User",
       "status": "active",
       "id": 1,
-      "avatar": "https://i.pravatar.cc/150?img=2",
+      "avatar": "https://i.pravatar.cc/150?img=10",
       "createdAt": "2024-02-20T14:20:00Z"
     },
     {
