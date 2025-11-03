@@ -1,6 +1,6 @@
 import Card from "../../../common/Card";
 import type { MetricsCardProps } from "./MetricsCard.types";
-
+import { memo } from "react";
 const MetricsCard = ({ title, metrics, className = "" }: MetricsCardProps) => {
   return (
     <Card className={className}>
@@ -30,4 +30,4 @@ const MetricsCard = ({ title, metrics, className = "" }: MetricsCardProps) => {
   );
 };
 
-export default MetricsCard;
+export default memo(MetricsCard);

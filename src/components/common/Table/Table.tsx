@@ -3,7 +3,6 @@ import { ChevronUp, ChevronDown } from "lucide-react";
 import { cn } from "../../../utils/cn";
 import Spinner from "../../common/Spinner";
 import type { TableProps, Column } from "./Table.types";
-
 function Table<T extends { id: number | string }>({
   data,
   columns,

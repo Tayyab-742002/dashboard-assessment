@@ -10,7 +10,7 @@ import {
 } from "recharts";
 import Card from "../../../common/Card";
 import type { RevenueChartProps } from "./RevenueChart.types";
-
+import { memo } from "react";
 const RevenueChart = ({ data }: RevenueChartProps) => {
   return (
     <Card>
@@ -62,4 +62,4 @@ const RevenueChart = ({ data }: RevenueChartProps) => {
   );
 };
 
-export default RevenueChart;
+export default memo(RevenueChart);

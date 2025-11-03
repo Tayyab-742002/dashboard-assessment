@@ -2,6 +2,7 @@ import { TrendingUp, TrendingDown } from "lucide-react";
 import { cn } from "../../../../utils/cn";
 import Card from "../../../common/Card";
 import type { StatsCardProps } from "./StatsCard.types";
+import { memo } from "react";
 const StatsCard = ({
   title,
   value,
@@ -56,4 +57,4 @@ const StatsCard = ({
   );
 };
 
-export default StatsCard;
+export default memo(StatsCard);

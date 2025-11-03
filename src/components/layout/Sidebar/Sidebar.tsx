@@ -4,6 +4,7 @@ import logo from "../../../assets/images/logo.png";
 import { ROUTES } from "../../../utils/constants";
 import type { SidebarProps } from "./Sidebar.types";
 import { cn } from "../../../utils/cn";
+import Analytics from "../../../pages/Analytics/Analytics";
 
 const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
   const navItems = [
@@ -44,7 +45,13 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
         <div className="flex items-center justify-between h-16 px-6 border-b border-primary/50">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg flex items-center justify-center">
-            <img src={logo} alt="logo" className="w-8 h-8" />             
+              <img
+                src={logo}
+                alt="logo"
+                loading="lazy"
+                decoding="async"
+                className="w-8 h-8"
+              />
             </div>
             <span className="text-lg font-semibold text-primary">
               Analytics

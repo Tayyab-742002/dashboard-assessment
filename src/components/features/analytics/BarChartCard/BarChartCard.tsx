@@ -10,7 +10,7 @@ import {
 } from "recharts";
 import Card from "../../../common/Card";
 import type { BarChartCardProps } from "./BarChartCard.types";
-
+import { memo } from "react";
 const BarChartCard = ({
   title,
   subtitle,
@@ -58,4 +58,4 @@ const BarChartCard = ({
   );
 };
 
-export default BarChartCard;
+export default memo(BarChartCard);

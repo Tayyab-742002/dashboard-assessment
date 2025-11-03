@@ -3,7 +3,7 @@ import { formatDateTime, formatCurrency } from "../../../../utils/formatters";
 import Card from "../../../common/Card";
 import type { RecentActivityProps } from "./RecentActivity.types";
 import { cn } from "../../../../utils/cn";
-
+import { memo } from "react";
 const RecentActivityComponent = ({ activities }: RecentActivityProps) => {
   const getActivityIcon = (action: string) => {
     if (action.toLowerCase().includes("purchase")) {
@@ -91,4 +91,4 @@ const RecentActivityComponent = ({ activities }: RecentActivityProps) => {
   );
 };
 
-export default RecentActivityComponent;
+export default memo(RecentActivityComponent);

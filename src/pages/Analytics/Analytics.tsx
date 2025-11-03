@@ -3,17 +3,24 @@ import { TrendingUp, Users, DollarSign, ShoppingBag } from "lucide-react";
 // import { analyticsService } from "../../api/services/analytics.service";
 import Spinner from "../../components/common/Spinner";
 import StatsCard from "../../components/features/dashboard/StatsCard";
-import PieChartCard from "../../components/features/analytics/PieChartCard";
-import BarChartCard from "../../components/features/analytics/BarChartCard";
-import MetricsCard from "../../components/features/analytics/MetricsCard";
 import { formatCurrency, formatNumber } from "../../utils/formatters";
 import { useAnalyticsData } from "../../hooks/queries/useAnalytics";
+import { lazy, Suspense, useMemo } from "react";
 import type {
   RevenueBreakdown,
   SalesByCategory,
   UserGrowth,
 } from "../../types/analytics.types";
-import { useMemo } from "react";
+
+const PieChartCard = lazy(
+  () => import("../../components/features/analytics/PieChartCard")
+);
+const BarChartCard = lazy(
+  () => import("../../components/features/analytics/BarChartCard")
+);
+const MetricsCard = lazy(
+  () => import("../../components/features/analytics/MetricsCard")
+);
 
 const Analytics = () => {
   // const { data: analyticsData, loading } = useFetch<AnalyticsData>(
@@ -119,23 +126,29 @@ const Analytics = () => {
       {/* Charts Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="shadow-primary">
-          <PieChartCard
-            title="Sales by Category"
-            subtitle="Distribution of sales across categories"
-            data={analyticsData?.salesByCategory || []}
-          />
+          <Suspense fallback={<Spinner size="lg" label="Loading..." />}>
+            <PieChartCard
+              title="Sales by Category"
+              subtitle="Distribution of sales across categories"
+              data={analyticsData?.salesByCategory || []}
+            />
+          </Suspense>
         </div>
 
         <div className="shadow-primary">
-          <MetricsCard title="Revenue Sources" metrics={revenueMetrics} />
+          <Suspense fallback={<Spinner size="lg" label="Loading..." />}>
+            <MetricsCard title="Revenue Sources" metrics={revenueMetrics} />
+          </Suspense>
         </div>
       </div>
       <div className="shadow-primary">
-        <BarChartCard
-          title="User Growth"
-          subtitle="Monthly user acquisition and growth rate"
-          data={analyticsData?.userGrowth || []}
-        />
+        <Suspense fallback={<Spinner size="lg" label="Loading..." />}>
+          <BarChartCard
+            title="User Growth"
+            subtitle="Monthly user acquisition and growth rate"
+            data={analyticsData?.userGrowth || []}
+          />
+        </Suspense>
       </div>
     </div>
   );

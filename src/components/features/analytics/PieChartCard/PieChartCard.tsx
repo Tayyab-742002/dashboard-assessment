@@ -2,9 +2,15 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import Card from "../../../common/Card";
 import type { PieChartCardProps } from "./PieChartCard.types";
 import { formatCurrency } from "../../../../utils/formatters";
+import { memo } from "react";
 const COLORS = ["#0ea5e9", "#a855f7", "#22c55e", "#f59e0b", "#ef4444"];
 
-const PieChartCard = ({ title, subtitle, data, className=""}: PieChartCardProps) => {
+const PieChartCard = ({
+  title,
+  subtitle,
+  data,
+  className = "",
+}: PieChartCardProps) => {
   return (
     <Card className={className}>
       <Card.Header title={title} subtitle={subtitle} />
@@ -14,7 +20,8 @@ const PieChartCard = ({ title, subtitle, data, className=""}: PieChartCardProps)
             <ResponsiveContainer width="100%" height={250}>
               <PieChart>
                 <Pie
-                  data={data}
+                  // Recharts expects a broad indexable data type; cast is safe because we control the shape via PieChartData
+                  data={data as unknown as Record<string, unknown>[]}
                   cx="50%"
                   cy="50%"
                   labelLine={false}
@@ -52,13 +59,17 @@ const PieChartCard = ({ title, subtitle, data, className=""}: PieChartCardProps)
                     className="w-3 h-3 rounded-full"
                     style={{ backgroundColor: COLORS[index % COLORS.length] }}
                   />
-                  <span className="text-sm text-muted-foreground truncate">{item.name}</span>
+                  <span className="text-sm text-muted-foreground truncate">
+                    {item.name}
+                  </span>
                 </div>
                 <div className="text-right shrink-0">
                   <p className="text-sm font-semibold text-foreground">
                     {formatCurrency(item.value)}
                   </p>
-                  <p className="text-xs text-muted-foreground">{item.percentage}%</p>
+                  <p className="text-xs text-muted-foreground">
+                    {item.percentage}%
+                  </p>
                 </div>
               </div>
             ))}
@@ -69,4 +80,4 @@ const PieChartCard = ({ title, subtitle, data, className=""}: PieChartCardProps)
   );
 };
 
-export default PieChartCard;
+export default memo(PieChartCard);

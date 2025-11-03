@@ -1,5 +1,6 @@
 import { Loader2 } from "lucide-react";
 import { cn } from "../../../utils/cn";
+import { memo } from "react";
 import type { SpinnerProps } from "./Spinner.types";
 
 const Spinner = ({ size = "md", className, label }: SpinnerProps) => {
@@ -20,4 +21,4 @@ const Spinner = ({ size = "md", className, label }: SpinnerProps) => {
   );
 };
 
-export default Spinner;
+export default memo(Spinner);

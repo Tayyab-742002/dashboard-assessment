@@ -1,4 +1,5 @@
 import { cn } from "../../../utils/cn";
+import { memo } from "react";
 import type {
   CardProps,
   CardHeaderProps,
@@ -79,9 +80,11 @@ const CardFooter = ({ children, className, ...props }: CardFooterProps) => {
   );
 };
 
-// Compound component pattern
-Card.Header = CardHeader;
-Card.Content = CardContent;
-Card.Footer = CardFooter;
+// Compound component pattern with memo while preserving static members
+const CardCompound = Object.assign(memo(Card), {
+  Header: CardHeader,
+  Content: CardContent,
+  Footer: CardFooter,
+});
 
-export default Card;
+export default CardCompound;
